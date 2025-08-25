@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la Encuesta: Capacitación IA para Emprendedores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Plugin para mostrar etiquetas de datos en los gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            height: 45vh; /* Aumentamos un poco la altura para mejor visualización */
+            width: 100%;
+        }
+        .chart-container-sm {
+            position: relative;
+            height: 40vh; /* Aumentamos un poco la altura */
+            width: 100%;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="gradient-bg text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">Resultados de la Capacitación</h1>
+            <p class="text-2xl font-semibold text-indigo-600 mt-2">IA para Emprendedores y Profesionales</p>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Análisis visual de la encuesta de satisfacción con la participación de <span class="font-bold text-indigo-700">18 asistentes</span>.</p>
+        </header>
+
+        <!-- Contenedor de una sola columna para los gráficos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Satisfacción General -->
+            <div class="card md:col-span-2">
+                <h2 class="text-2xl font-bold text-center mb-4">Nivel de Satisfacción General</h2>
+                <p class="text-center text-gray-600 mb-6">La gran mayoría de los asistentes calificó la capacitación de forma muy positiva.</p>
+                <div class="chart-container">
+                    <canvas id="satisfactionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Valoración por Bloques -->
+            <div class="card md:col-span-2">
+                <h2 class="text-2xl font-bold text-center mb-4">Valoración por Bloques de Contenido</h2>
+                 <p class="text-center text-gray-600 mb-6">El bloque 2 sobre "Herramientas de IA" fue el mejor valorado, seguido de cerca por los otros dos módulos.</p>
+                <div class="chart-container">
+                    <canvas id="blocksChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Cumplimiento de Expectativas -->
+            <div class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">Cumplimiento de Expectativas</h2>
+                <div class="chart-container-sm">
+                    <canvas id="expectationsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Preparación Post-Capacitación -->
+            <div class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">¿Más preparados para implementar IA?</h2>
+                <div class="chart-container-sm">
+                    <canvas id="preparednessChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Perfil de los Asistentes -->
+            <div class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">Perfil de los Asistentes</h2>
+                <div class="chart-container-sm">
+                    <canvas id="roleChart"></canvas>
+                </div>
+            </div>
+
+             <!-- Sectores Productivos -->
+            <div class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">Principales Sectores Productivos</h2>
+                <div class="chart-container-sm">
+                    <canvas id="industryChart"></canvas>
+                </div>
+            </div>
+
+             <!-- Temas de Interés Futuro -->
+            <div class="card md:col-span-2">
+                <h2 class="text-2xl font-bold text-center mb-4">Temas de Interés para Futuras Capacitaciones</h2>
+                <p class="text-center text-gray-600 mb-6">La automatización y el análisis de datos con IA son los temas más demandados.</p>
+                <div class="chart-container">
+                    <canvas id="futureTopicsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Colaboraciones de Interés -->
+            <div class="card md:col-span-2">
+                <h2 class="text-2xl font-bold text-center mb-4">Colaboraciones de Mayor Interés</h2>
+                <p class="text-center text-gray-600 mb-6">La formación continua es, por lejos, el servicio más solicitado por las organizaciones de los asistentes.</p>
+                <div class="chart-container">
+                    <canvas id="collaborationChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 py-6 border-t border-gray-300">
+            <p class="text-gray-600">Infografía generada automáticamente a partir de los datos de la encuesta.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Registrar el plugin de etiquetas de datos globalmente
+        Chart.register(ChartDataLabels);
+
+        const chartColors = {
+            primary: 'rgba(79, 70, 229, 0.8)',
+            primaryLight: 'rgba(99, 102, 241, 0.8)',
+            secondary: 'rgba(30, 186, 199, 0.8)',
+            secondaryLight: 'rgba(56, 211, 224, 0.8)',
+            tertiary: 'rgba(14, 165, 233, 0.8)',
+            tertiaryLight: 'rgba(56, 189, 248, 0.8)',
+            gray: 'rgba(156, 163, 175, 0.6)',
+        };
+
+        // Opciones por defecto para gráficos de barras
+        const barChartDefaults = {
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { family: 'Inter', size: 12 }, boxWidth: 20, padding: 20 }
+                },
+                tooltip: {
+                    backgroundColor: '#1f2937',
+                    titleFont: { family: 'Inter', size: 14, weight: 'bold' },
+                    bodyFont: { family: 'Inter', size: 12 },
+                    padding: 10, cornerRadius: 8
+                },
+                datalabels: { display: false } // Ocultar etiquetas por defecto en barras
+            },
+            scales: {
+                x: { ticks: { font: { family: 'Inter' } }, grid: { display: false } },
+                y: { ticks: { font: { family: 'Inter' } }, grid: { color: '#e5e7eb' } }
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+        // Opciones por defecto para gráficos de torta/dona - ACTUALIZADO
+        const pieChartDefaults = {
+            plugins: {
+                legend: {
+                    position: 'right', // Leyenda a la derecha para que se apile verticalmente
+                    align: 'center',
+                    labels: { 
+                        font: { family: 'Inter', size: 12 }, 
+                        boxWidth: 20, 
+                        padding: 15 
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#1f2937',
+                    titleFont: { family: 'Inter', size: 14, weight: 'bold' },
+                    bodyFont: { family: 'Inter', size: 12 },
+                    padding: 10, cornerRadius: 8
+                },
+                // Configuración para mostrar los valores en las porciones
+                datalabels: {
+                    formatter: (value, ctx) => value,
+                    color: '#fff',
+                    font: { weight: 'bold', size: 16 }
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+
+        // 1. Satisfaction Chart (Bar)
+        new Chart(document.getElementById('satisfactionChart'), {
+            type: 'bar',
+            data: {
+                labels: ['3 - Regular', '4 - Bueno', '5 - Excelente'],
+                datasets: [{
+                    label: 'Nº de Respuestas',
+                    data: [1, 9, 8],
+                    backgroundColor: [chartColors.gray, chartColors.primaryLight, chartColors.primary],
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: { ...barChartDefaults, plugins: { ...barChartDefaults.plugins, legend: { display: false } } }
+        });
+
+        // 2. Expectations Chart (Doughnut)
+        new Chart(document.getElementById('expectationsChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Superó mis expectativas', 'Cumplió con mis expectativas', 'Cumplió parcialmente'],
+                datasets: [{
+                    data: [5, 11, 2],
+                    backgroundColor: [chartColors.primary, chartColors.secondary, chartColors.gray],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: { ...pieChartDefaults, cutout: '60%' }
+        });
+
+        // 3. Preparedness Chart (Pie)
+        new Chart(document.getElementById('preparednessChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Sí, totalmente', 'Sí, parcialmente'],
+                datasets: [{
+                    data: [8, 10],
+                    backgroundColor: [chartColors.primary, chartColors.secondaryLight],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: pieChartDefaults
+        });
+
+        // 4. Role Chart (Pie)
+        new Chart(document.getElementById('roleChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Dueño / Fundador', 'Empleado / Colaborador', 'Estudiante', 'Otro'],
+                datasets: [{
+                    data: [7, 7, 3, 1],
+                    backgroundColor: [chartColors.primary, chartColors.secondary, chartColors.tertiary, chartColors.gray],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: pieChartDefaults
+        });
+
+        // 5. Blocks Chart (Grouped Bar)
+        new Chart(document.getElementById('blocksChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Bloque 1: ¿Qué es la IA?', 'Bloque 2: Herramientas', 'Bloque 3: ¿Cómo seguir?'],
+                datasets: [
+                    { label: 'Excelente (5)', data: [6, 10, 9], backgroundColor: chartColors.primary, borderRadius: 5 },
+                    { label: 'Bueno (4)', data: [10, 7, 6], backgroundColor: chartColors.secondary, borderRadius: 5 },
+                    { label: 'Regular (3)', data: [2, 1, 3], backgroundColor: chartColors.gray, borderRadius: 5 }
+                ]
+            },
+            options: { ...barChartDefaults, scales: { x: { stacked: true }, y: { stacked: true } } }
+        });
+
+        // 6. Future Topics Chart (Horizontal Bar)
+        new Chart(document.getElementById('futureTopicsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Automatización Avanzada', 'Análisis de Datos y BI', 'Prompt Engineering', 'Aspectos Legales y Éticos', 'IA para Marketing', 'IA para Finanzas', 'IA para RRHH'],
+                datasets: [{
+                    label: 'Interesados',
+                    data: [14, 14, 10, 9, 8, 7, 5],
+                    backgroundColor: [ chartColors.primary, chartColors.primaryLight, chartColors.secondary, chartColors.secondaryLight, chartColors.tertiary, chartColors.tertiaryLight, chartColors.gray ],
+                    borderRadius: 5
+                }]
+            },
+            options: { ...barChartDefaults, indexAxis: 'y', plugins: { ...barChartDefaults.plugins, legend: { display: false } } }
+        });
+
+        // 7. Collaboration Chart (Horizontal Bar)
+        new Chart(document.getElementById('collaborationChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Formación Continua', 'Pasantías', 'Desarrollo de Software', 'Estudios de Mercado', 'Asesoramiento Digital'],
+                datasets: [{
+                    label: 'Organizaciones Interesadas',
+                    data: [16, 7, 7, 6, 6],
+                    backgroundColor: [ chartColors.primary, chartColors.secondary, chartColors.tertiary, chartColors.primaryLight, chartColors.secondaryLight ],
+                    borderRadius: 5
+                }]
+            },
+            options: { ...barChartDefaults, indexAxis: 'y', plugins: { ...barChartDefaults.plugins, legend: { display: false } } }
+        });
+
+        // 8. Industry Chart (Doughnut)
+        new Chart(document.getElementById('industryChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Servicios Profesionales', 'Educación', 'Comercio', 'Tecnología', 'Turismo', 'Otros', 'Salud'],
+                datasets: [{
+                    data: [7, 4, 3, 2, 2, 2, 1],
+                     backgroundColor: [ chartColors.primary, chartColors.secondary, chartColors.tertiary, chartColors.primaryLight, chartColors.secondaryLight, chartColors.tertiaryLight, chartColors.gray ],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: { ...pieChartDefaults, cutout: '60%' }
+        });
+
+    </script>
+</body>
+</html>
